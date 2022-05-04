@@ -1,4 +1,10 @@
-import { IExercise } from "../../backend/src/exercises/interfaces/exercise.interface";
+export interface IExercise {
+  id: string;
+  name: string;
+  description: string;
+  category: string;
+  type: string;
+}
 
 export interface IResponseMessage {
   responseMessage: string;

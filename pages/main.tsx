@@ -1,19 +1,22 @@
 import * as React from "react";
 import { Box, Button } from "@mui/material";
-import { useState } from "react";
+import { useState, createContext } from "react";
 import { MockGetExercises } from "../api/exercises";
 import { Header } from "../components/Header";
 import AddIcon from "@mui/icons-material/Add";
 import { ContainerComp } from "../components/ContainerComp";
 import { WorkoutsList } from "../components/WorkoutsList";
 import { ModalWithExercises } from "../components/ModalWithExercises";
-import { IExercise } from "../../backend/src/exercises/interfaces/exercise.interface";
 import { MockWorkoutApi } from "../api/addNewWorkout";
 import { IWorkout } from "../types/addNewWorkout";
+import { IExercise } from "../types/exercises";
+
+export const ModalContext = createContext(false);
+export const ExercisesContext = createContext<IExercise[]>([]);
 
 const Main = () => {
   const [openModal, setOpenModal] = useState(false);
-  const [exercises, setExercises] = useState<IExercise[]>();
+  const [exercises, setExercises] = useState<IExercise[]>([]);
   const [workoutsList, setWorkoutsList] = useState<IWorkout[]>([]);
 
   const handleOpenModal = async () => {
@@ -61,12 +64,14 @@ const Main = () => {
           Create new workout
         </Button>
       </Box>
-      <ModalWithExercises
-        openModal={openModal}
-        closeModal={handleCloseModal}
-        exercises={exercises ?? []}
-        refreshWorkouts={refreshWorkouts}
-      />
+      <ModalContext.Provider value={openModal}>
+        <ExercisesContext.Provider value={exercises}>
+          <ModalWithExercises
+            closeModal={handleCloseModal}
+            refreshWorkouts={refreshWorkouts}
+          />
+        </ExercisesContext.Provider>
+      </ModalContext.Provider>
       <WorkoutsList workoutsList={workoutsList} />
     </ContainerComp>
   );

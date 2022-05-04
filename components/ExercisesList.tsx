@@ -7,22 +7,20 @@ import {
   Collapse,
   TextField,
 } from "@mui/material";
-import { Dispatch, SetStateAction, useState } from "react";
-import { IExercise } from "../../backend/src/exercises/interfaces/exercise.interface";
-import { IExerciseWithRepeats } from "../types/exercises";
+import { Dispatch, SetStateAction, useContext, useState } from "react";
+import { ExercisesContext } from "../pages/main";
+import { IExerciseWithRepeats, IExercise } from "../types/exercises";
 
 interface ExercisesListProp {
   setChoosenExercises: Dispatch<SetStateAction<IExerciseWithRepeats[]>>;
-  exercises: IExercise[];
 }
 
-export const ExercisesList = ({
-  setChoosenExercises,
-  exercises,
-}: ExercisesListProp) => {
+export const ExercisesList = ({ setChoosenExercises }: ExercisesListProp) => {
   const [openNestedInput, setOpenNestedInput] = useState(false);
   const [itemId, setItemId] = useState("");
   const [repeats, setRepeats] = useState("");
+
+  const exercises = useContext(ExercisesContext);
 
   const handleAddClick = () => {
     setOpenNestedInput(!openNestedInput);

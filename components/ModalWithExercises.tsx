@@ -1,32 +1,30 @@
 import { Box, Typography, Modal, IconButton, Container } from "@mui/material";
 import { ExercisesList } from "./ExercisesList";
-import { IExerciseWithRepeats } from "../types/exercises";
+import { IExerciseWithRepeats, IExercise } from "../types/exercises";
 import { ChoosenExercisesList } from "./ChoosenExercisesList";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
-import { IExercise } from "../../backend/src/exercises/interfaces/exercise.interface";
+import { ModalContext } from "../pages/main";
 
 interface ModalWithExercisesProps {
-  openModal: boolean;
   closeModal: () => void;
-  exercises: IExercise[];
   refreshWorkouts: () => Promise<void>;
 }
 
 export const ModalWithExercises = ({
-  openModal,
   closeModal,
-  exercises,
   refreshWorkouts,
 }: ModalWithExercisesProps) => {
   const [choosenExercises, setChoosenExercises] = useState<
     IExerciseWithRepeats[]
   >([]);
 
+  const modal = useContext(ModalContext);
+
   return (
     <>
       <Modal
-        open={openModal}
+        open={modal}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -72,10 +70,7 @@ export const ModalWithExercises = ({
               justifyContent: "center",
             }}
           >
-            <ExercisesList
-              setChoosenExercises={setChoosenExercises}
-              exercises={exercises}
-            />
+            <ExercisesList setChoosenExercises={setChoosenExercises} />
             <ChoosenExercisesList
               choosenExercises={choosenExercises}
               refreshWorkouts={refreshWorkouts}
