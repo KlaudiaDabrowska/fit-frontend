@@ -1,5 +1,3 @@
-import { IExercise } from "../../backend/src/exercises/interfaces/exercise.interface";
-
 export const mockExercises = [
   {
     id: "1",

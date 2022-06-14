@@ -18,7 +18,7 @@ export const Header = () => {
         },
       }}
     >
-      NO WŁAŚNIE NIE WIEM, KURCZE
+      FITNESS APP
     </Typography>
   );
 };
